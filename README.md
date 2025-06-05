@@ -1,142 +1,195 @@
+# AgroBovAPI
 
-AgroBovAPI
+[![Status da Construção](https://img.shields.io/badge/Status-Working-brightgreen)](https://github.com/seu-usuario/seu-repositorio/actions)
+[![Licença MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Versão Java](https://img.shields.io/badge/Java-17%2B-orange)](https://www.oracle.com/java/technologies/downloads/)
+[![Versão Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2.5-green)](https://spring.io/projects/spring-boot)
 
+Esta API RESTful permite o gerenciamento de registros de vacas e suas produções diárias de leite, incluindo a análise de tendências de produção, com suporte a HATEOAS para facilitar a navegação e o consumo por clientes frontend.
 
-Esta API RESTful permite o gerenciamento de registros de vacas e suas produções diárias de leite, incluindo a análise de tendências de produção, com suporte a HATEOAS para facilitar a navegação.
+## Sumário
 
-Sumário
-Visão Geral
-Tecnologias Utilizadas
-Pré-requisitos
-Como Rodar a Aplicação
-Usando Docker Compose (Recomendado)
-Rodando Diretamente com Maven
-Conceitos Importantes para o Frontend
-HATEOAS
-Estrutura de Links
-Códigos de Status HTTP
-Tratamento de Erros
-CORS (Cross-Origin Resource Sharing)
-Formato de Datas
-Documentação da API
-1. Recurso: Vacas
-GET /api/vacas - Listar Todas as Vacas
-GET /api/vacas/{id} - Buscar Vaca por ID
-POST /api/vacas - Criar uma Nova Vaca
-PUT /api/vacas/{id} - Atualizar Vaca
-DELETE /api/vacas/{id} - Deletar Vaca
-2. Recurso: Produção de Leite
-POST /api/producao-leite/vaca/{vacaId} - Registrar Produção de Leite
-GET /api/producao-leite/vaca/{vacaId} - Listar Produções de Leite por Vaca
-GET /api/producao-leite/vaca/{vacaId}/analise-15-dias - Analisar Produção de Leite nos Últimos 15 Dias
-Contribuição
-Licença
-Visão Geral
-Este projeto é uma API RESTful desenvolvida em Spring Boot para gerenciar informações sobre vacas e suas produções de leite. Ele permite registrar novas vacas, suas produções diárias e oferece uma análise da tendência de produção nos últimos 15 dias. A API utiliza HATEOAS para fornecer links contextuais nas respostas, tornando-a mais navegável e robusta para clientes frontend.
+* [Visão Geral](#visão-geral)
+* [Tecnologias Utilizadas](#tecnologias-utilizadas)
+* [Pré-requisitos](#pré-requisitos)
+* [Como Rodar a Aplicação](#como-rodar-a-aplicação)
+    * [1. Usando Docker Compose (Recomendado)](#1-usando-docker-compose-recomendado)
+    * [2. Rodando Diretamente com Maven](#2-rodando-diretamente-com-maven)
+* [Conceitos Importantes para o Frontend](#conceitos-importantes-para-o-frontend)
+    * [HATEOAS](#hateoas)
+    * [Estrutura de Links](#estrutura-de-links)
+    * [Códigos de Status HTTP](#códigos-de-status-http)
+    * [Tratamento de Erros](#tratamento-de-erros)
+    * [CORS (Cross-Origin Resource Sharing)](#cors-cross-origin-resource-sharing)
+    * [Formato de Datas](#formato-de-datas)
+* [Documentação da API](#documentação-da-api)
+    * [Recurso: Vacas](#recurso-vacas)
+        * [`GET /api/vacas`](#get-apivacas)
+        * [`GET /api/vacas/{id}`](#get-apivacasid)
+        * [`POST /api/vacas`](#post-apivacas)
+        * [`PUT /api/vacas/{id}`](#put-apivacasid)
+        * [`DELETE /api/vacas/{id}`](#delete-apivacasid)
+    * [Recurso: Produção de Leite](#recurso-produção-de-leite)
+        * [`POST /api/producao-leite/vaca/{vacaId}`](#post-apiproducao-leitevacaid)
+        * [`GET /api/producao-leite/vaca/{vacaId}`](#get-apiproducao-leitevacaid)
+        * [`GET /api/producao-leite/vaca/{vacaId}/analise-15-dias`](#get-apiproducao-leitevacaidanalise-15-dias)
+* [Contribuição](#contribuição)
+* [Licença](#licença)
 
-Tecnologias Utilizadas
-Java 17+
-Spring Boot 3.x
-Spring Data JPA
-PostgreSQL (como banco de dados)
-Spring HATEOAS (para links de hypermedia)
-Lombok (para redução de boilerplate)
-Maven (para gerenciamento de dependências e build)
-Docker / Docker Compose (para ambiente de desenvolvimento e deploy)
-Pré-requisitos
+---
+
+## Visão Geral
+
+Este projeto é uma API RESTful desenvolvida em **Spring Boot** para gerenciar informações sobre vacas e suas produções de leite. Ele permite registrar novas vacas, suas produções diárias e oferece uma análise da tendência de produção nos últimos 15 dias. A API utiliza **HATEOAS** para fornecer links contextuais nas respostas, tornando-a mais navegável e robusta para clientes frontend.
+
+## Tecnologias Utilizadas
+
+* **Java 17+**
+* **Spring Boot 3.x**
+* **Spring Data JPA**
+* **PostgreSQL** (como banco de dados)
+* **Spring HATEOAS** (para links de hypermedia)
+* **Lombok** (para redução de boilerplate)
+* **Maven** (para gerenciamento de dependências e build)
+* **Docker / Docker Compose** (para ambiente de desenvolvimento e deploy)
+
+## Pré-requisitos
+
 Para rodar a aplicação localmente, você precisará de:
 
-JDK 17 ou superior
-Apache Maven
-Docker e Docker Compose (recomendado)
-Um cliente REST para testar as APIs (ex: Postman, Insomnia, curl)
-Como Rodar a Aplicação
-Usando Docker Compose (Recomendado)
-Esta é a maneira mais fácil e recomendada para iniciar a aplicação e o banco de dados.
+* [JDK 17 ou superior](https://www.oracle.com/java/technologies/downloads/)
+* [Apache Maven](https://maven.apache.org/download.cgi)
+* [Docker e Docker Compose](https://docs.docker.com/get-docker/) (recomendado)
+* Um cliente REST para testar as APIs (ex: [Postman](https://www.postman.com/downloads/), [Insomnia](https://insomnia.rest/download/), `curl`)
 
-Clone o repositório (se ainda não o fez):
+## Como Rodar a Aplicação
 
-Bash
+### 1. Usando Docker Compose (Recomendado)
 
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
-(Substitua seu-usuario/seu-repositorio pelo caminho real do seu projeto).
+Esta é a maneira mais fácil e recomendada para iniciar a aplicação e o banco de dados, pois gerencia todas as dependências do ambiente.
 
-Verifique a configuração do banco de dados:
-Certifique-se de que o arquivo docker-compose.yml na raiz do projeto tenha as credenciais de banco de dados definidas.
+1. **Clone o repositório** (se ainda não o fez):
 
-YAML
+    ```bash
+    git clone https://github.com/seu-usuario/seu-repositorio.git
+    cd seu-repositorio
+    ```
+    *(Substitua `seu-usuario/seu-repositorio` pelo caminho real do seu projeto.)*
 
-# ... (trecho de docker-compose.yml)
-services:
-  db:
-    environment:
-      POSTGRES_DB: vacas_db
-      POSTGRES_USER: seu_usuario_postgres # <--- Mude este
-      POSTGRES_PASSWORD: sua_senha_postgres # <--- Mude este
-# ...
-Altere seu_usuario_postgres e sua_senha_postgres para credenciais seguras de sua escolha.
+2. **Verifique e Configure as Credenciais do Banco de Dados:**
 
-Inicie os serviços:
-Na raiz do projeto, execute o seguinte comando:
+    Abra o arquivo `docker-compose.yml` na raiz do seu projeto. Localize o serviço `db` e altere as variáveis de ambiente `POSTGRES_USER` e `POSTGRES_PASSWORD` para suas credenciais seguras.
 
-Bash
+    ```yaml
+    services:
+      db:
+        environment:
+          POSTGRES_DB: vacas_db
+          POSTGRES_USER: seu_usuario_postgres # <--- Mude este!
+          POSTGRES_PASSWORD: sua_senha_postgres # <--- Mude este!
+    ```
 
-docker-compose up --build -d
---build: Garante que a imagem da sua aplicação Spring Boot seja construída (ou reconstruída) a partir do Dockerfile.
--d: Inicia os contêineres em segundo plano (detached mode).
-Verifique o status dos contêineres:
+3. **Inicie os Serviços:**
 
-Bash
+    Na raiz do projeto (onde está o `docker-compose.yml`), execute o seguinte comando no seu terminal:
 
-docker ps
-Você deverá ver os contêineres vacas_db_container e vacas_app_container rodando.
+    ```bash
+    docker-compose up --build -d
+    ```
 
-Acesse a API:
-A API estará disponível em http://localhost:8080/api.
+    * `up`: Inicia os serviços definidos no `docker-compose.yml`.
+    * `--build`: Garante que a imagem da sua aplicação Spring Boot seja construída (ou reconstruída) a partir do `Dockerfile`.
+    * `-d`: Inicia os contêineres em segundo plano (detached mode), liberando o terminal.
 
-Parar e Limpar:
-Para parar e remover os contêineres e redes:
+4. **Verifique o Status dos Contêineres:**
 
-Bash
+    Você pode verificar se os contêineres estão rodando com:
 
-docker-compose down
-Para parar, remover e também apagar os dados persistidos do banco de dados (use com cautela!):
+    ```bash
+    docker ps
+    ```
 
-Bash
+    Você deverá ver os contêineres `vacas_db_container` e `vacas_app_container` listados como `Up`.
 
-docker-compose down -v
-Rodando Diretamente com Maven
-Se você preferir rodar a aplicação diretamente em sua máquina sem Docker (certifique-se de ter um PostgreSQL rodando e configurado localmente).
+5. **Acesse a API:**
 
-Configure o Banco de Dados:
+    A API estará disponível em `http://localhost:8080/api`.
 
-Crie um banco de dados PostgreSQL chamado vacas_db.
-Atualize o arquivo src/main/resources/application.properties com suas credenciais do PostgreSQL:
-Properties
+6. **Visualizar Logs (Opcional):**
 
-spring.datasource.url=jdbc:postgresql://localhost:5432/vacas_db
-spring.datasource.username=seu_usuario_postgres # <--- Mude este
-spring.datasource.password=sua_senha_postgres # <--- Mude este
-Execute a aplicação:
-Na raiz do projeto, execute:
+    Para ver os logs do contêiner da aplicação em tempo real:
 
-Bash
+    ```bash
+    docker-compose logs -f app
+    ```
 
-mvn spring-boot:run
-A aplicação iniciará na porta 8080.
+    Para ver os logs do contêiner do banco de dados em tempo real:
 
-Conceitos Importantes para o Frontend
-HATEOAS
-HATEOAS (Hypermedia as an Engine of Application State) significa que as respostas da API incluem links que indicam as ações ou recursos relacionados que o cliente pode acessar em seguida. Isso permite que o frontend "descubra" as funcionalidades da API sem URLs hardcoded, tornando a integração mais flexível e resiliente a mudanças na estrutura da API.
+    ```bash
+    docker-compose logs -f db
+    ```
 
-Estrutura de Links
-Os links HATEOAS são incluídos nas respostas JSON sob a chave _links. Cada link possui um rel (nome do relacionamento) e um href (a URL do recurso).
+7. **Parar e Remover os Serviços:**
 
-Exemplo de resposta com links:
+    Para parar e remover os contêineres e redes criadas pelo Docker Compose:
 
-JSON
+    ```bash
+    docker-compose down
+    ```
 
+    Para parar, remover e também **apagar os dados persistidos do banco de dados** (use com cautela!):
+
+    ```bash
+    docker-compose down -v
+    ```
+
+### 2. Rodando Diretamente com Maven
+
+Se você preferir rodar a aplicação diretamente em sua máquina (sem Docker), certifique-se de ter um servidor PostgreSQL rodando e configurado localmente.
+
+1. **Configure o Banco de Dados Localmente:**
+    * Crie um banco de dados PostgreSQL chamado `vacas_db`.
+    * Certifique-se de que o usuário e a senha que você usará para conectar a este banco de dados tenham as permissões necessárias.
+
+2. **Atualize o Arquivo de Propriedades da Aplicação:**
+
+    Abra o arquivo `src/main/resources/application.properties` na raiz do seu projeto e atualize as configurações do banco de dados para apontar para sua instância PostgreSQL local:
+
+    ```properties
+    spring.datasource.url=jdbc:postgresql://localhost:5432/vacas_db
+    spring.datasource.username=seu_usuario_postgres # <--- Mude este para seu usuário local
+    spring.datasource.password=sua_senha_postgres # <--- Mude este para sua senha local
+    spring.datasource.driver-class-name=org.postgresql.Driver
+    spring.jpa.hibernate.ddl-auto=update # Ou 'create-drop' para testes, 'none' para produção
+    spring.jpa.show-sql=true
+    spring.jpa.properties.hibernate.format_sql=true
+    server.port=8080
+    ```
+
+3. **Execute a Aplicação:**
+
+    Na raiz do seu projeto (onde está o `pom.xml`), execute os seguintes comandos no seu terminal:
+
+    ```bash
+    mvn clean install
+    mvn spring-boot:run
+    ```
+
+    A aplicação iniciará na porta `8080`.
+
+## Conceitos Importantes para o Frontend
+
+### HATEOAS
+
+HATEOAS (Hypermedia as an Engine of Application State) é um princípio fundamental que significa que as respostas da API incluem **links** que indicam as ações ou recursos relacionados que o cliente pode acessar em seguida. Isso permite que o frontend "descubra" as funcionalidades da API dinamicamente, sem URLs hardcoded, tornando a integração mais flexível e resiliente a mudanças na estrutura da API.
+
+### Estrutura de Links
+
+Os links HATEOAS são incluídos nas respostas JSON sob a chave `_links`. Cada link possui um `rel` (nome do relacionamento) e um `href` (a URL do recurso).
+
+**Exemplo de resposta com links:**
+
+```json
 {
     "id": 1,
     "nome": "Mimosa",
@@ -151,40 +204,71 @@ JSON
         },
         "producoes_leite": {
             "href": "http://localhost:8080/api/producao-leite/vaca/1"
+        },
+        "analise_producao_15_dias": {
+            "href": "http://localhost:8080/api/producao-leite/vaca/1/analise-15-dias"
         }
     }
 }
-O frontend deve parsear a resposta JSON, acessar a propriedade _links, localizar o link desejado pelo seu rel (ex: delete_vaca) e usar o href associado para fazer a próxima requisição.
+```
 
-Códigos de Status HTTP
+O frontend deve:
+
+- Parsear a resposta JSON.
+- Acessar a propriedade `_links`.
+- Localizar o link desejado pelo seu `rel` (ex: `delete_vaca`, `producoes_leite`).
+- Usar o `href` associado para fazer a próxima requisição.
+
+### Códigos de Status HTTP
+
 A API utiliza códigos de status HTTP padrão para indicar o resultado das operações:
 
-2xx (Sucesso): 200 OK, 201 Created, 204 No Content.
-4xx (Erro do Cliente): 400 Bad Request, 404 Not Found, 409 Conflict.
-5xx (Erro do Servidor): 500 Internal Server Error. É crucial que o frontend implemente o tratamento desses códigos para exibir mensagens de erro adequadas ao usuário.
-Tratamento de Erros
-Em caso de erros (4xx ou 5xx), a API pode retornar um corpo de resposta JSON com detalhes do erro. O frontend deve monitorar esses códigos e exibir mensagens apropriadas ao usuário.
+**2xx (Sucesso):**
+- `200 OK`: Requisição processada com sucesso.
+- `201 Created`: Novo recurso criado com sucesso (resposta a um POST).
+- `204 No Content`: Requisição processada com sucesso, mas sem conteúdo para retornar (ex: exclusão).
 
-CORS (Cross-Origin Resource Sharing)
-Se o seu frontend estiver sendo executado em um domínio/porta diferente da API (ex: http://localhost:3000 para frontend e http://localhost:8080 para API), erros de CORS podem ocorrer. A API está configurada com @CrossOrigin nos controladores para permitir requisições de origens comuns de desenvolvimento (como http://localhost:3000). Se o seu frontend estiver em outra origem, será necessário ajustar a configuração no código da API (nas anotações @CrossOrigin nos controladores).
+**4xx (Erro do Cliente):**
+- `400 Bad Request`: Requisição malformada, validação falhou, dados inválidos.
+- `404 Not Found`: Recurso não encontrado no servidor.
+- `409 Conflict`: Conflito com o estado atual do recurso (ex: tentar criar uma vaca com nome já existente).
 
-Formato de Datas
-Todas as datas na API (requisições e respostas) devem estar no formato YYYY-MM-DD (ex: 2025-06-05).
+**5xx (Erro do Servidor):**
+- `500 Internal Server Error`: Um erro inesperado ocorreu no servidor.
 
-Documentação da API
-Base URL: http://localhost:8080/api
+É crucial que o frontend implemente o tratamento desses códigos para exibir mensagens de erro adequadas ao usuário e gerenciar o fluxo da aplicação.
 
-1. Recurso: Vacas
-Gerencia o registro e as informações básicas das vacas.
+### Tratamento de Erros
 
-GET /api/vacas - Listar Todas as Vacas
-Retorna uma lista de todas as vacas registradas, com links HATEOAS.
+Em caso de erros (`4xx` ou `5xx`), a API pode retornar um corpo de resposta JSON com detalhes do erro (embora o código atual retorne apenas o status e null em alguns casos, idealmente ele retornaria um objeto de erro padronizado). O frontend deve monitorar esses códigos de status HTTP e exibir mensagens de feedback apropriadas ao usuário com base na resposta recebida.
 
-Método: GET
-Parâmetros: Nenhum
-Resposta (200 OK):
-JSON
+### CORS (Cross-Origin Resource Sharing)
 
+Se o seu frontend estiver sendo executado em um domínio ou porta diferente da API (por exemplo, frontend em http://localhost:3000 e API em http://localhost:8080), você pode encontrar erros de CORS (Cross-Origin Resource Sharing). A API está configurada com `@CrossOrigin(origins = "http://localhost:3000")` nos controladores para permitir requisições de origens comuns de desenvolvimento. Se o seu frontend estiver em outra origem, será necessário ajustar a configuração no código da API (nas anotações `@CrossOrigin` nos controladores, adicionando sua origem, ou configurando globalmente).
+
+### Formato de Datas
+
+Todas as datas utilizadas na API (tanto nas requisições de entrada quanto nas respostas de saída) devem estar no formato `YYYY-MM-DD` (ex: 2025-06-05).
+
+## Documentação da API
+
+**Base URL para todos os endpoints:** `http://localhost:8080/api`
+
+---
+
+### Recurso: Vacas
+
+Este recurso gerencia o registro e as informações básicas das vacas.
+
+#### `GET /api/vacas`
+
+- **Descrição:** Lista todas as vacas registradas no sistema.
+- **Método:** GET
+- **Parâmetros:** Nenhum
+
+**Resposta (200 OK - Exemplo):**
+
+```json
 [
     {
         "id": 1,
@@ -199,102 +283,198 @@ JSON
             "producoes_leite": { "href": "http://localhost:8080/api/producao-leite/vaca/1" },
             "analise_producao_15_dias": { "href": "http://localhost:8080/api/producao-leite/vaca/1/analise-15-dias" }
         }
+    },
+    {
+        "id": 2,
+        "nome": "Estrela",
+        "raca": "Jersey",
+        "dataNascimento": "2021-03-20",
+        "producoesLeite": null,
+        "_links": { /* ... links para a vaca Estrela ... */ }
     }
-    // ...
 ]
-Resposta (204 No Content): Nenhuma vaca registrada.
-GET /api/vacas/{id} - Buscar Vaca por ID
-Retorna os detalhes de uma vaca específica.
+```
 
-Método: GET
-Parâmetros de Path:
-id (long, obrigatório): O ID da vaca.
-Resposta (200 OK): Objeto Vaca com detalhes e links HATEOAS para ações como self, delete_vaca, update_vaca, all_vacas, producoes_leite, analise_producao_15_dias, registrar_producao.
-Resposta (404 Not Found): Vaca não encontrada.
-POST /api/vacas - Criar uma Nova Vaca
-Cria um novo registro de vaca.
+**Resposta (204 No Content):** Retornada se não houver vacas registradas.
 
-Método: POST
-Headers: Content-Type: application/json
-Corpo da Requisição (JSON):
-JSON
+---
 
+#### `GET /api/vacas/{id}`
+
+- **Descrição:** Busca os detalhes de uma vaca específica pelo seu ID.
+- **Método:** GET
+- **Parâmetros de Path:**
+    - `id` (long, obrigatório): O ID único da vaca.
+
+**Resposta (200 OK - Exemplo):**
+
+```json
 {
-    "nome": "Pérola",
-    "raca": "Holandesa",
-    "dataNascimento": "2022-04-01"
+    "id": 1,
+    "nome": "Mimosa",
+    "raca": "Nelore",
+    "dataNascimento": "2020-01-15",
+    "producoesLeite": null,
+    "_links": {
+        "self": { "href": "http://localhost:8080/api/vacas/1" },
+        "delete_vaca": { "href": "http://localhost:8080/api/vacas/1" },
+        "update_vaca": { "href": "http://localhost:8080/api/vacas/1" },
+        "all_vacas": { "href": "http://localhost:8080/api/vacas" },
+        "producoes_leite": { "href": "http://localhost:8080/api/producao-leite/vaca/1" },
+        "analise_producao_15_dias": { "href": "http://localhost:8080/api/producao-leite/vaca/1/analise-15-dias" },
+        "registrar_producao": { "href": "http://localhost:8080/api/producao-leite/vaca/1" }
+    }
 }
-nome (string, obrigatório, único)
-raca (string, obrigatório)
-dataNascimento (string, YYYY-MM-DD, opcional)
-Resposta (201 Created): Objeto Vaca da vaca criada com links HATEOAS.
-Resposta (400 Bad Request): Nome duplicado ou dados inválidos.
-PUT /api/vacas/{id} - Atualizar Vaca
-Atualiza as informações de uma vaca existente.
+```
 
-Método: PUT
-Parâmetros de Path:
-id (long, obrigatório): O ID da vaca a ser atualizada.
-Headers: Content-Type: application/json
-Corpo da Requisição (JSON):
-JSON
+**Resposta (404 Not Found):** Vaca com o ID especificado não foi encontrada.
 
-{
-    "nome": "Pérola do Leite",
-    "raca": "Holandesa",
-    "dataNascimento": "2022-04-01"
-}
-Envie os campos que deseja atualizar.
-Resposta (200 OK): Objeto Vaca atualizada com links HATEOAS.
-Resposta (404 Not Found): Vaca não encontrada.
-Resposta (400 Bad Request): Dados inválidos.
-DELETE /api/vacas/{id} - Deletar Vaca
-Remove um registro de vaca do sistema.
+---
 
-Método: DELETE
-Parâmetros de Path:
-id (long, obrigatório): O ID da vaca a ser deletada.
-Resposta (204 No Content): Vaca deletada com sucesso.
-Resposta (404 Not Found): Vaca não encontrada.
-2. Recurso: Produção de Leite
-Gerencia o registro e a análise da produção de leite das vacas.
+#### `POST /api/vacas`
 
-POST /api/producao-leite/vaca/{vacaId} - Registrar Produção de Leite
-Registra a quantidade de leite produzida por uma vaca em uma data específica.
+- **Descrição:** Cria um novo registro de vaca no sistema.
+- **Método:** POST
+- **Headers:** `Content-Type: application/json`
+- **Corpo da Requisição (JSON - Exemplo):**
 
-Método: POST
-Parâmetros de Path:
-vacaId (long, obrigatório): O ID da vaca.
-Headers: Content-Type: application/json
-Corpo da Requisição (JSON):
-JSON
+    ```json
+    {
+        "nome": "Pérola",
+        "raca": "Holandesa",
+        "dataNascimento": "2022-04-01"
+    }
+    ```
 
-{
-    "dataRegistro": "2025-06-05",
-    "quantidadeLitros": 28.5
-}
-dataRegistro (string, YYYY-MM-DD, obrigatório)
-quantidadeLitros (double, obrigatório)
-Resposta (201 Created): Objeto ProducaoLeite registrado com links HATEOAS para a vaca associada e análises.
-Resposta (404 Not Found): Vaca não encontrada.
-Resposta (400 Bad Request): Dados inválidos.
-GET /api/producao-leite/vaca/{vacaId} - Listar Produções de Leite por Vaca
-Retorna todas as produções de leite registradas para uma vaca específica, ordenadas por data.
+    - `nome` (string, obrigatório, deve ser único)
+    - `raca` (string, obrigatório)
+    - `dataNascimento` (string, YYYY-MM-DD, opcional)
 
-Método: GET
-Parâmetros de Path:
-vacaId (long, obrigatório): O ID da vaca.
-Resposta (200 OK): Lista de objetos ProducaoLeite, cada um com links HATEOAS.
-Resposta (204 No Content): Nenhuma produção de leite encontrada para a vaca.
-GET /api/producao-leite/vaca/{vacaId}/analise-15-dias - Analisar Produção de Leite nos Últimos 15 Dias
-Calcula e retorna a produção de leite diária para uma vaca nos últimos 15 dias, indicando se a quantidade aumentou, diminuiu ou permaneceu estável em relação ao dia anterior.
+**Resposta (201 Created):** Objeto Vaca da vaca recém-criada, incluindo seu id e links HATEOAS para self, all_vacas e registrar_producao.
 
-Método: GET
-Parâmetros de Path:
-vacaId (long, obrigatório): O ID da vaca.
-Resposta (200 OK): Lista de objetos de análise.
-JSON
+**Resposta (400 Bad Request):** Nome duplicado ou dados de entrada inválidos.
 
+---
+
+#### `PUT /api/vacas/{id}`
+
+- **Descrição:** Atualiza as informações de uma vaca existente.
+- **Método:** PUT
+- **Parâmetros de Path:**
+    - `id` (long, obrigatório): O ID único da vaca a ser atualizada.
+- **Headers:** `Content-Type: application/json`
+- **Corpo da Requisição (JSON - Exemplo):**
+
+    ```json
+    {
+        "nome": "Pérola do Leite",
+        "raca": "Holandesa",
+        "dataNascimento": "2022-04-01"
+    }
+    ```
+
+    Envie apenas os campos que deseja atualizar.
+
+**Resposta (200 OK):** Objeto Vaca da vaca atualizada, com links HATEOAS.
+
+**Resposta (404 Not Found):** Vaca com o ID especificado não foi encontrada.
+
+**Resposta (400 Bad Request):** Dados de entrada inválidos.
+
+---
+
+#### `DELETE /api/vacas/{id}`
+
+- **Descrição:** Remove um registro de vaca do sistema.
+- **Método:** DELETE
+- **Parâmetros de Path:**
+    - `id` (long, obrigatório): O ID único da vaca a ser deletada.
+
+**Resposta (204 No Content):** Vaca deletada com sucesso.
+
+**Resposta (404 Not Found):** Vaca com o ID especificado não foi encontrada.
+
+---
+
+### Recurso: Produção de Leite
+
+Este recurso gerencia o registro e a análise da produção de leite das vacas.
+
+#### `POST /api/producao-leite/vaca/{vacaId}`
+
+- **Descrição:** Registra a quantidade de leite produzida por uma vaca em uma data específica.
+- **Método:** POST
+- **Parâmetros de Path:**
+    - `vacaId` (long, obrigatório): O ID da vaca à qual a produção de leite pertence.
+- **Headers:** `Content-Type: application/json`
+- **Corpo da Requisição (JSON - Exemplo):**
+
+    ```json
+    {
+        "dataRegistro": "2025-06-05",
+        "quantidadeLitros": 28.5
+    }
+    ```
+
+    - `dataRegistro` (string, YYYY-MM-DD, obrigatório)
+    - `quantidadeLitros` (double, obrigatório)
+
+**Resposta (201 Created):** Objeto ProducaoLeite da produção registrada, com links HATEOAS para a vaca associada e análises.
+
+**Resposta (404 Not Found):** Vaca com o vacaId especificado não foi encontrada.
+
+**Resposta (400 Bad Request):** Dados de entrada inválidos.
+
+---
+
+#### `GET /api/producao-leite/vaca/{vacaId}`
+
+- **Descrição:** Retorna todas as produções de leite registradas para uma vaca específica, ordenadas por data de registro.
+- **Método:** GET
+- **Parâmetros de Path:**
+    - `vacaId` (long, obrigatório): O ID da vaca.
+
+**Resposta (200 OK - Exemplo):**
+
+```json
+[
+    {
+        "id": 101,
+        "vaca": { "id": 1, "nome": "Mimosa", "raca": "Nelore", "dataNascimento": "2020-01-15", "producoesLeite": null },
+        "dataRegistro": "2025-06-03",
+        "quantidadeLitros": 27.0,
+        "_links": {
+            "self": { "href": "http://localhost:8080/api/producao-leite/vaca/1" },
+            "vaca": { "href": "http://localhost:8080/api/vacas/1" }
+        }
+    },
+    {
+        "id": 102,
+        "vaca": { "id": 1, "nome": "Mimosa", "raca": "Nelore", "dataNascimento": "2020-01-15", "producoesLeite": null },
+        "dataRegistro": "2025-06-04",
+        "quantidadeLitros": 28.5,
+        "_links": {
+            "self": { "href": "http://localhost:8080/api/producao-leite/vaca/1" },
+            "vaca": { "href": "http://localhost:8080/api/vacas/1" }
+        }
+    }
+]
+```
+
+**Resposta (204 No Content):** Não há produções de leite registradas para esta vaca.
+
+---
+
+#### `GET /api/producao-leite/vaca/{vacaId}/analise-15-dias`
+
+- **Descrição:** Calcula e retorna a produção de leite diária para uma vaca nos últimos 15 dias, indicando se a quantidade aumentou, diminuiu ou permaneceu estável em relação ao dia anterior.
+- **Método:** GET
+- **Parâmetros de Path:**
+    - `vacaId` (long, obrigatório): O ID da vaca.
+
+**Resposta (200 OK - Exemplo):**
+
+```json
 [
     {
         "dataRegistro": "2025-05-22",
@@ -307,7 +487,36 @@ JSON
         "quantidadeLitros": 22.0,
         "variacaoLitros": 2.0,
         "tendencia": "Aumentou"
+    },
+    {
+        "dataRegistro": "2025-05-24",
+        "quantidadeLitros": 21.0,
+        "variacaoLitros": -1.0,
+        "tendencia": "Diminuiu"
+    },
+    {
+        "dataRegistro": "2025-05-25",
+        "quantidadeLitros": 21.0,
+        "variacaoLitros": 0.0,
+        "tendencia": "Estável"
     }
-    // ...
+    // ... mais entradas para os 15 dias
 ]
-Resposta (204 No Content): Nenhuma produção de leite encontrada para a vaca nos últimos 15 dias.
+```
+
+- `dataRegistro` (string, YYYY-MM-DD): Data do registro.
+- `quantidadeLitros` (double): Quantidade de leite produzida naquele dia.
+- `variacaoLitros` (double ou null): Diferença na quantidade de litros em relação ao dia anterior. null para o primeiro registro no período.
+- `tendencia` (string): Indica se a produção "Aumentou", "Diminuiu", "Estável" ou "Primeiro registro no período".
+
+**Resposta (204 No Content):** Não há produções de leite registradas para esta vaca nos últimos 15 dias.
+
+---
+
+## Contribuição
+
+Sinta-se à vontade para abrir issues ou pull requests! Leia as diretrizes de contribuição antes de começar.
+
+## Licença
+
+Este projeto está licenciado sob a [Licença MIT](LICENSE).
